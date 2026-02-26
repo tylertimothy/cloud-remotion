@@ -1,0 +1,28 @@
+{
+  "name": "claude-remotion-video-app",
+  "version": "1.0.0",
+  "description": "AI-powered video creation using Claude Code and Remotion - create video animations from prompts",
+  "type": "module",
+  "scripts": {
+    "dev": "remotion studio",
+    "start": "remotion studio",
+    "build": "remotion bundle src/index.ts --out-dir=dist",
+    "render": "remotion render src/index.ts",
+    "upgrade": "remotion upgrade",
+    "create-video": "node scripts/create-video.js",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "4.0.429"
+  },
+  "devDependencies": {
+    "@remotion/bundler": "4.0.429",
+    "@remotion/cli": "4.0.429",
+    "@remotion/eslint-plugin": "4.0.429",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}

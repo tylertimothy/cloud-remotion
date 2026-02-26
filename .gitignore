@@ -1,0 +1,10 @@
+node_modules/
+dist/
+out/
+.env
+.env.local
+*.mp4
+*.webm
+.DS_Store
+prompts/latest.txt
+prompts/history.txt
