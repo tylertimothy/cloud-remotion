@@ -4,7 +4,9 @@
 
 ### Overview
 
-This is a single-project **Remotion** (React-based video framework) app. No external services, databases, or Docker are required. All commands are documented in `README.md` and `package.json`.
+This is a single-project **Remotion** (React-based video framework) app with **BuildAtScale Claude Code Plugins** integrated. No external services, databases, or Docker are required for the core Remotion app. All commands are documented in `README.md` and `package.json`.
+
+The plugins provide: git workflow automation (buildatscale), AI image generation via Google Gemini (nano-banana-pro), and professional promo video creation with voiceover (promo-video). See `CLAUDE.md` for full plugin documentation.
 
 ### Key commands
 
@@ -16,6 +18,8 @@ This is a single-project **Remotion** (React-based video framework) app. No exte
 | Tests | `node --test tests/create-video.test.js` |
 | Build | `npm run build` |
 | Render video | `npx remotion render src/index.ts <CompositionId> out.mp4` |
+| Generate image | `uv run plugins/nano-banana-pro/skills/generate/scripts/image.py --prompt "..." --output out.png` |
+| Generate voiceover | `python3 plugins/promo-video/skills/promo-video/scripts/generate_voiceover.py` |
 
 ### Gotchas
 
@@ -23,3 +27,7 @@ This is a single-project **Remotion** (React-based video framework) app. No exte
 - **Remotion Studio**: Runs on port 3000. The dev server starts and stays running in the background; the initial terminal output may look like it exited, but `curl http://localhost:3000` confirms it is serving.
 - **No ESLint config file**: The project has `@remotion/eslint-plugin` as a devDependency but no `.eslintrc` or `eslint.config.*` file, so `npx eslint` will not produce meaningful results without first creating a config.
 - **ESM project**: `"type": "module"` is set in `package.json`. All source uses ES module imports.
+- **Plugin hooks require `jq`**: The safety hooks in `plugins/buildatscale/hooks/` parse JSON via `jq`. It is pre-installed in the cloud environment.
+- **Image generation requires `GEMINI_API_KEY`**: The nano-banana-pro plugin needs this env var set. Also requires `uv` (Python package manager).
+- **Voiceover generation requires `ELEVEN_LABS_API_KEY`**: The promo-video plugin needs this env var for ElevenLabs API. Also requires `ffmpeg` (pre-installed).
+- **Music files are binary MP3s**: The 3 royalty-free tracks in `plugins/promo-video/skills/promo-video/music/` are committed as binary files. They are used by the promo-video workflow for background music mixing.
