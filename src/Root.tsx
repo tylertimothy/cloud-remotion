@@ -3,10 +3,20 @@ import { Composition } from 'remotion';
 import { PromptVideo } from './compositions/PromptVideo';
 import { HelloWorld } from './compositions/HelloWorld';
 import { FlowerTowTruck } from './compositions/FlowerTowTruck';
+import { IceCubePromo } from './compositions/IceCubePromo';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="IceCubePromo"
+        component={IceCubePromo}
+        durationInFrames={550}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{}}
+      />
       <Composition
         id="FlowerTowTruck"
         component={FlowerTowTruck}
