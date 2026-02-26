@@ -1,0 +1,27 @@
+node_modules/
+dist/
+out/
+.env
+.env.local
+*.mp4
+*.webm
+.DS_Store
+prompts/latest.txt
+prompts/history.txt
+
+# Claude Code local settings
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Generated assets
+generated-images/
+voiceover*.mp3
+section_*.mp3
+silence_base.mp3
+background-music.mp3
