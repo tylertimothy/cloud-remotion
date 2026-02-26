@@ -19,48 +19,33 @@ const SCENES = {
   CTA: { start: 465, duration: 85 },
 };
 
-const Particle: React.FC<{
-  delay: number;
-  x: number;
-  size: number;
-  speed: number;
-}> = ({ delay, x, size, speed }) => {
-  const frame = useCurrentFrame();
-  const adjustedFrame = Math.max(0, frame - delay);
-  const y = interpolate(adjustedFrame * speed, [0, 600], [110, -10], {
-    extrapolateRight: 'wrap',
-  });
-  const opacity = interpolate(y, [100, 80, 20, -5], [0, 0.6, 0.6, 0]);
-
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        left: `${x}%`,
-        top: `${y}%`,
-        width: size,
-        height: size,
-        borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.5)',
-        filter: `blur(${size > 6 ? 2 : 0}px)`,
-        opacity,
-      }}
-    />
-  );
-};
-
 const FloatingParticles: React.FC = () => {
-  const particles = Array.from({ length: 20 }, (_, i) => ({
-    delay: i * 8,
-    x: (i * 17 + 5) % 100,
-    size: 3 + (i % 4) * 2,
-    speed: 0.3 + (i % 3) * 0.15,
-  }));
+  const frame = useCurrentFrame();
+  const particles = Array.from({ length: 8 }, (_, i) => {
+    const baseX = (i * 23 + 10) % 90;
+    const speed = 0.4 + (i % 3) * 0.2;
+    const yPos = ((frame * speed + i * 80) % 120) - 10;
+    const opacity = yPos > 10 && yPos < 100 ? 0.4 : 0;
+    const size = 3 + (i % 3) * 2;
+    return { x: baseX, y: yPos, opacity, size };
+  });
 
   return (
     <>
       {particles.map((p, i) => (
-        <Particle key={i} {...p} />
+        <div
+          key={i}
+          style={{
+            position: 'absolute',
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.5)',
+            opacity: p.opacity,
+          }}
+        />
       ))}
     </>
   );
@@ -102,7 +87,7 @@ const HookScene: React.FC = () => {
     <AbsoluteFill>
       <div style={{ transform: `scale(${bgScale})`, width: '100%', height: '100%' }}>
         <Img
-          src={staticFile('assets/gradient-bg.png')}
+          src={staticFile('assets/gradient-bg.jpg')}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>
@@ -120,7 +105,7 @@ const HookScene: React.FC = () => {
           }}
         >
           <Img
-            src={staticFile('assets/ice-cube-hero.png')}
+            src={staticFile('assets/ice-cube-hero.jpg')}
             style={{ width: 520, height: 520, objectFit: 'contain' }}
           />
         </div>
@@ -255,7 +240,6 @@ const PhoneMockupScene: React.FC = () => {
   return (
     <AbsoluteFill>
       <GradientBackground dark />
-      <FloatingParticles />
       <AbsoluteFill
         style={{
           justifyContent: 'center',
@@ -265,11 +249,10 @@ const PhoneMockupScene: React.FC = () => {
         <div
           style={{
             transform: `scale(${phoneScale}) translateY(${phoneFloat}px) perspective(1200px) rotateY(${phoneRotateY}deg)`,
-            filter: 'drop-shadow(0 40px 80px rgba(0,0,0,0.5))',
           }}
         >
           <Img
-            src={staticFile('assets/phone-mockup.png')}
+            src={staticFile('assets/phone-mockup.jpg')}
             style={{ height: 820, objectFit: 'contain' }}
           />
         </div>
@@ -423,7 +406,6 @@ const FeaturesScene: React.FC = () => {
   return (
     <AbsoluteFill>
       <GradientBackground dark />
-      <FloatingParticles />
       <AbsoluteFill
         style={{
           flexDirection: 'row',
@@ -471,11 +453,10 @@ const FeaturesScene: React.FC = () => {
             justifyContent: 'center',
             opacity: multiScreenOpacity,
             transform: `scale(${multiScreenScale})`,
-            filter: 'drop-shadow(0 20px 60px rgba(0,0,0,0.4))',
           }}
         >
           <Img
-            src={staticFile('assets/multi-screen.png')}
+            src={staticFile('assets/multi-screen.jpg')}
             style={{ width: 780, objectFit: 'contain' }}
           />
         </div>
@@ -510,7 +491,6 @@ const SocialProofScene: React.FC = () => {
   return (
     <AbsoluteFill>
       <GradientBackground dark />
-      <FloatingParticles />
       <AbsoluteFill
         style={{
           justifyContent: 'center',
@@ -523,11 +503,10 @@ const SocialProofScene: React.FC = () => {
           style={{
             opacity: ratingOpacity,
             transform: `scale(${ratingScale})`,
-            filter: 'drop-shadow(0 10px 40px rgba(0,0,0,0.3))',
           }}
         >
           <Img
-            src={staticFile('assets/rating-stars.png')}
+            src={staticFile('assets/rating-stars.jpg')}
             style={{ width: 500, objectFit: 'contain' }}
           />
         </div>
@@ -607,7 +586,6 @@ const CTAScene: React.FC = () => {
   return (
     <AbsoluteFill>
       <GradientBackground dark />
-      <FloatingParticles />
       <AbsoluteFill
         style={{
           justifyContent: 'center',
@@ -619,11 +597,10 @@ const CTAScene: React.FC = () => {
         <div
           style={{
             transform: `scale(${iconScale}) translateY(${iconFloat}px)`,
-            filter: 'drop-shadow(0 20px 50px rgba(80, 160, 255, 0.3))',
           }}
         >
           <Img
-            src={staticFile('assets/ice-cube-hero.png')}
+            src={staticFile('assets/ice-cube-hero.jpg')}
             style={{ width: 300, height: 300, objectFit: 'contain' }}
           />
         </div>
@@ -695,12 +672,23 @@ const CrossfadeTransition: React.FC<{
 }> = ({ children, startFrame, duration, fadeIn = 12, fadeOut = 12 }) => {
   const frame = useCurrentFrame();
   const localFrame = frame - startFrame;
-  const opacity = interpolate(
-    localFrame,
-    [0, fadeIn, duration - fadeOut, duration],
-    [0, 1, 1, 0],
-    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
-  );
+
+  let opacity: number;
+  if (fadeOut <= 0) {
+    opacity = interpolate(localFrame, [0, fadeIn], [0, 1], {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    });
+  } else {
+    const fadeOutStart = Math.max(fadeIn + 1, duration - fadeOut);
+    opacity = interpolate(
+      localFrame,
+      [0, fadeIn, fadeOutStart, duration],
+      [0, 1, 1, 0],
+      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+    );
+  }
+
   return <div style={{ position: 'absolute', inset: 0, opacity }}>{children}</div>;
 };
 
