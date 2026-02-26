@@ -1,0 +1,77 @@
+{
+  "name": "buildatscale-claude-code",
+  "owner": {
+    "name": "BuildAtScale",
+    "email": "hello@buildatscale.tv"
+  },
+  "metadata": {
+    "description": "Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced productivity",
+    "version": "1.4.2",
+    "homepage": "https://github.com/buildatscale-tv/claude-code-plugins"
+  },
+  "plugins": [
+    {
+      "name": "buildatscale",
+      "description": "Core BuildAtScale tools: commit and PR commands, git safety hooks, and file cleanup automation",
+      "source": "./plugins/buildatscale",
+      "commands": [
+        "./commands/pr.md",
+        "./commands/commit.md",
+        "./commands/ceo.md"
+      ],
+      "hooks": {
+        "PreToolUse": [
+          {
+            "matcher": "Bash",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/git-block-force-push.sh"
+              },
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/bash-guard.sh"
+              }
+            ]
+          },
+          {
+            "matcher": "Write|Edit|MultiEdit",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/file-guard.sh"
+              }
+            ]
+          }
+        ],
+        "PostToolUse": [
+          {
+            "matcher": "Write|Edit|MultiEdit",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/file-write-cleanup.sh"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "nano-banana-pro",
+      "description": "Nano Banana Pro image generation. Use when user asks to generate an image, create an image, make an image, or mentions nano banana. Uses Google Gemini 2.5 Flash.",
+      "source": "./plugins/nano-banana-pro",
+      "skills": [
+        "./skills/generate"
+      ]
+    },
+    {
+      "name": "promo-video",
+      "description": "Create professional promotional videos using Remotion with AI voiceover and background music. Invoke with /promo-video.",
+      "source": "./plugins/promo-video",
+      "skills": [
+        "./skills/promo-video"
+      ]
+    }
+  ]
+}
